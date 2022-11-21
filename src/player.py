@@ -1,5 +1,4 @@
 import pygame as pg
-import sys
 
 
 class Player(pg.sprite.Sprite):
@@ -12,7 +11,7 @@ class Player(pg.sprite.Sprite):
         self.movex = 0
         self.movey = 0
 
-        self.rect.topleft = [420, 10]
+        self.rect.center = [445, 590]
 
     def control(self, x, y):
         self.movex += x
@@ -21,7 +20,7 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.rect.x = self.rect.x + self.movex
         self.rect.y = self.rect.y + self.movey
-        # print(self.rect.x, self.rect.y)
+        # print(self.rect.center)
         if self.rect.x < 0:
             self.rect.x = 0
         if self.rect.x > 894 - 50:
