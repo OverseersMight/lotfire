@@ -17,6 +17,14 @@ FPS = 60
 
 
 def end(world, message, font_big, font_small, difficulty):
+    difficulty_str = ""
+    if difficulty == 1:
+        difficulty_str = "EASY"
+    if difficulty == 2:
+        difficulty_str = "MEDIUM"
+    if difficulty == 3:
+        difficulty_str = "HARD"
+
     while True:
         pg.time.delay(100)
         for event in pg.event.get():
@@ -33,7 +41,7 @@ def end(world, message, font_big, font_small, difficulty):
         if "LOSE" in message:
             message_surf, message_rect = font_big.render(message, (255, 0, 0))
         else:
-            message_surf, message_rect = font_big.render(message, (0, 255, 0))
+            message_surf, message_rect = font_big.render(message + " - " + difficulty_str, (0, 255, 0))
 
         message_rect.x = world.get_width() / 2 - message_rect.width / 2
         message_rect.y = world.get_height() / 2 - message_rect.height / 2
@@ -107,7 +115,7 @@ def main(difficulty):
     font_big = pg.freetype.Font("../assets/font.TTF", 48)
     font_small = pg.freetype.Font("../assets/font.TTF", 24)
 
-    bg = pg.image.load(os.path.join('../assets', 'bg.png'))
+    bg = pg.image.load("../assets/bg.png")
     width, height = bg.get_width(), bg.get_height()
 
     world = pg.display.set_mode([width, height])

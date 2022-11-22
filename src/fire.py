@@ -27,4 +27,3 @@ class Fire(pg.sprite.Sprite):
             self.current_sprite = 0
 
         self.image = pg.transform.scale(self.sprites[int(self.current_sprite)], (180, 180))
-
