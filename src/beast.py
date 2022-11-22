@@ -9,11 +9,13 @@ class Beast(pg.sprite.Sprite):
 
         self.image = pg.transform.scale(pg.image.load("../assets/beast.png"), (110, 102))
         self.rect = self.image.get_rect()
+        self.rect.x = 445
+        self.rect.y = 10
 
         self.movex = 0
         self.movey = 0
         self.dir = 0
-        self.rect.center = [445, 10]
+        self.rect.topleft = [random.randint(0, 894), random.randint(0, 570)]
 
     def calc(self, px, py, speed):
         dx = px - self.rect.x
@@ -29,10 +31,12 @@ class Beast(pg.sprite.Sprite):
         dist = math.hypot(dx, dy)
 
         if dist == 0:
-            dist = 0.001
+            return False
 
         self.movex = min(speed, dist) * dx / dist
         self.movey = min(speed, dist) * dy / dist
+
+        return True
 
     def update(self):
         self.rect.x = self.rect.x + self.movex

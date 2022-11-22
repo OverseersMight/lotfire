@@ -63,7 +63,6 @@ def main():
     objects.add(player)
 
     tick = 1
-    start_tick = pg.time.get_ticks()
 
     while tick <= 3600:
         if tick % 120 == 1:
@@ -117,13 +116,11 @@ def main():
         logs.draw(world)
         logs.update()
 
-        # Log Counter
         log_font_surf, log_font_rect = font.render(str(log_count), (0, 0, 0))
         log_font_rect.x = width - log_font_rect.width - 30
         log_font_rect.y = height - log_font_rect.height - 150
         world.blit(log_font_surf, log_font_rect)
 
-        # Firewood Counter
         fire_font_surf, fire_font_rect = font.render(str(fire_log_count), (0, 0, 0))
         fire_font_rect.x = width - fire_font_rect.width - 30
         fire_font_rect.y = height - fire_font_rect.height - 100
