@@ -15,6 +15,27 @@ clock = pg.time.Clock()
 FPS = 60
 
 
+def end(world, message, font):
+    while True:
+        pygame.time.delay(100)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        if "LOSE" in message:
+            message_surf, message_rect = font.render(message, (255, 0, 0))
+        else:
+            message_surf, message_rect = font.render(message, (0, 255, 0))
+
+        message_rect.x = world.get_width() / 2 - message_rect.width / 2
+        message_rect.y = world.get_height() / 2 - message_rect.height / 2
+
+        world.fill((0, 0, 1))
+        world.blit(message_surf, message_rect)
+
+        pg.display.flip()
+
+
 def main():
     pg.init()
 
@@ -42,22 +63,19 @@ def main():
     objects.add(player)
 
     tick = 1
-    run = True
-    while run:
-        if tick == 7200 or fire_log_count == 0:
-            run = False
+    start_tick = pg.time.get_ticks()
 
-        if tick % 180 == 1:
+    while tick <= 3600:
+        if tick % 120 == 1:
             l = Log()
-            l.move(random.randint(0, 894), random.randint(0, 570))
+            l.move(random.randint(0, 824), random.randint(0, 570))
             logs.add(l)
 
-        if tick % 240 == 0:
+        if tick % 120 == 0:
             fire_log_count -= 1
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                run = False
                 sys.exit()
 
             if event.type == pg.KEYDOWN:
@@ -90,17 +108,22 @@ def main():
             fire_log_count += log_count
             log_count = 0
 
+        if beast.rect.inflate(-10, -50).colliderect(player.rect) or fire_log_count == 0:
+            end(world, "YOU LOSE", font)
+
         world.blit(bg, world.get_rect())
         objects.draw(world)
         objects.update()
         logs.draw(world)
         logs.update()
 
+        # Log Counter
         log_font_surf, log_font_rect = font.render(str(log_count), (0, 0, 0))
         log_font_rect.x = width - log_font_rect.width - 30
         log_font_rect.y = height - log_font_rect.height - 150
         world.blit(log_font_surf, log_font_rect)
 
+        # Firewood Counter
         fire_font_surf, fire_font_rect = font.render(str(fire_log_count), (0, 0, 0))
         fire_font_rect.x = width - fire_font_rect.width - 30
         fire_font_rect.y = height - fire_font_rect.height - 100
@@ -109,6 +132,8 @@ def main():
         pg.display.flip()
         clock.tick(FPS)
         tick += 1
+
+    end(world, "YOU WIN", font)
 
 
 if __name__ == "__main__":
