@@ -5,7 +5,7 @@ class Player(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
 
-        self.image = pg.transform.scale(pg.image.load("../assets/ralph.png"), (50, 90))
+        self.image = pg.transform.scale(pg.image.load("../assets/ralph.png"), (42, 79))
         self.rect = self.image.get_rect()
 
         self.movex = 0
