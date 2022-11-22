@@ -15,7 +15,7 @@ class Beast(pg.sprite.Sprite):
         self.movex = 0
         self.movey = 0
         self.dir = 0
-        self.rect.topleft = [random.randint(0, 894), random.randint(0, 570)]
+        self.rect.center = [445, 10]
 
     def calc(self, px, py, speed):
         dx = px - self.rect.x
