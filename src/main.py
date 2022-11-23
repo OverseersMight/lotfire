@@ -137,16 +137,22 @@ def main():
 
         log_counter = Text(str(log_count), font_big, (0, 0, 0), width - 30, height - 100)
         fire_counter = Text(str(fire_log_count), font_big, (0, 0, 0), width - 30, height - 150)
+        if tick % 60 == 0:
+            timer = Text(str(int((3600 - tick) / 60)), font_big, (0, 0, 0), width - 30, height - 200)
 
         texts.add(fire_counter)
         texts.add(log_counter)
+        if tick % 60 == 0:
+            texts.add(timer)
 
         texts.draw(world)
         texts.update()
 
         texts.remove(log_counter)
         texts.remove(fire_counter)
-
+        if (tick+1) % 60 == 0 and tick != 59:
+            texts.remove(timer)
+        
         pg.display.flip()
         clock.tick(FPS)
         tick += 1
