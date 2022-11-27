@@ -13,6 +13,7 @@ from src.text import Text
 RED = pg.Color('red')
 clock = pg.time.Clock()
 FPS = 60
+pygame.display.set_caption('Lord of the Fire')
 
 
 def end(world, message, font_title, font_desc, difficulty):
@@ -110,7 +111,7 @@ def changeDifficulty(world, font_title, font_desc):
 def main(difficulty):
     pg.init()
 
-    log_decay_rate = 120
+    log_decay_rate = 0
     log_count = 0
     fire_log_count = 10
     font_big = pg.freetype.Font("../assets/font.TTF", 62)
@@ -126,8 +127,8 @@ def main(difficulty):
     logs = pg.sprite.Group()
     texts = pg.sprite.Group()
 
-    playerSpeed = 5
-    beastSpeed = 4
+    playerSpeed = 0
+    beastSpeed = 0
 
     beast = Beast()
     player = Player()
@@ -138,26 +139,28 @@ def main(difficulty):
     objects.add(player)
 
     if difficulty == 1:
-        beastSpeed = 3
+        playerSpeed = 5
+        beastSpeed = 4
         log_decay_rate = 120
     if difficulty == 2:
-        beastSpeed = 4
-        log_decay_rate = 100
-    if difficulty == 3:
         playerSpeed = 6
         beastSpeed = 5
         log_decay_rate = 100
+    if difficulty == 3:
+        playerSpeed = 7
+        beastSpeed = 6
+        log_decay_rate = 95
 
-    tick = 1
+    tick = 0
 
     run = True
     while run:
-        if tick % 120 == 1:
+        if tick % 120 == 0:
             l = Log()
             l.move(random.randint(0, 824), random.randint(0, 570))
             logs.add(l)
 
-        if tick % log_decay_rate == 0:
+        if tick % log_decay_rate == 0 and tick != 0:
             fire_log_count -= 1
 
         for event in pg.event.get():
@@ -208,22 +211,21 @@ def main(difficulty):
         logs.draw(world)
         logs.update()
 
-        log_counter = Text(str(log_count), font_big, (0, 0, 0), width - 30, height - 100)
-        fire_counter = Text(str(fire_log_count), font_big, (0, 0, 0), width - 30, height - 150)
+        log_counter = Text(str(log_count), font_med, (0, 0, 0), width - 30, height - 80)
+        fire_counter = Text(str(fire_log_count), font_med, (0, 0, 0), width - 30, height - 130)
         if tick % 60 == 0:
-            timer = Text(str(int((3600 - tick) / 60)), font_big, (0, 0, 0), width - 30, height - 200)
+            timer = Text(str(int((3600 - tick) / 60)), font_med, (0, 0, 0), width - 30, height - 180)
+            texts.add(timer)
 
         texts.add(fire_counter)
         texts.add(log_counter)
-        if tick % 60 == 0:
-            texts.add(timer)
 
         texts.draw(world)
         texts.update()
 
         texts.remove(log_counter)
         texts.remove(fire_counter)
-        if (tick+1) % 60 == 0 and tick != 59:
+        if (tick+1) % 60 == 0:
             texts.remove(timer)
         
         pg.display.flip()
