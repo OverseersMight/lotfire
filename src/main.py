@@ -187,8 +187,6 @@ def main(difficulty):
                 if event.key == ord('d'):
                     player.control(-playerSpeed, 0)
 
-        beast.calc(player.rect.x, player.rect.y, beastSpeed)
-
         for log in logs:
             if log.rect.colliderect(player.rect):
                 logs.remove(log)
@@ -204,9 +202,11 @@ def main(difficulty):
         if tick == 3600:
             end(world, "YOU WIN", font_big, font_small, difficulty)
 
-        fire.image = pg.transform.scale(fire.image, (10*fire_log_count+80, 10*fire_log_count+80))
-
         # Updates and Redraw
+        fire.image = pg.transform.scale(fire.image, (10 * fire_log_count + 80, 10 * fire_log_count + 80))
+
+        beast.calc(player.rect.x, player.rect.y, beastSpeed)
+
         world.blit(bg, world.get_rect())
         objects.draw(world)
         objects.update()
@@ -227,9 +227,9 @@ def main(difficulty):
 
         texts.remove(log_counter)
         texts.remove(fire_counter)
-        if (tick+1) % 60 == 0:
+        if (tick + 1) % 60 == 0:
             texts.remove(timer)
-        
+
         pg.display.flip()
         clock.tick(FPS)
         tick += 1
