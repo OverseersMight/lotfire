@@ -26,4 +26,8 @@ class Fire(pg.sprite.Sprite):
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
 
+        self.rect = self.image.get_rect()
+
+        self.rect.center = [435, 230]
+
         self.image = pg.transform.scale(self.sprites[int(self.current_sprite)], (180, 180))
