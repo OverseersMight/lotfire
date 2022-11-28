@@ -204,6 +204,8 @@ def main(difficulty):
         if tick == 3600:
             end(world, "YOU WIN", font_big, font_small, difficulty)
 
+        fire.image = pg.transform.scale(fire.image, (10*fire_log_count+80, 10*fire_log_count+80))
+
         # Updates and Redraw
         world.blit(bg, world.get_rect())
         objects.draw(world)
